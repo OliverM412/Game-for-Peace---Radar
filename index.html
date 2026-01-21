@@ -1,0 +1,49 @@
+
+    <!DOCTYPE html>
+    <html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>竞品情报雷达 | Game Radar</title>
+        <style>
+            :root { --bg: #0b0c10; --card-bg: #1f2833; --text-main: #c5c6c7; --highlight: #66fcf1; --gold: #FFD700; --red: #fc5185; }
+            body { background-color: var(--bg); color: var(--text-main); font-family: 'Segoe UI', sans-serif; margin: 0; padding: 20px; }
+            h1 { text-align: center; color: var(--highlight); margin-bottom: 10px; }
+            .subtitle { text-align: center; color: #666; font-size: 14px; margin-bottom: 40px; }
+            
+            .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; }
+            
+            .card { background: var(--card-bg); border-radius: 12px; border: 1px solid #2d3844; overflow: hidden; transition: transform 0.2s; display: flex; flex-direction: column; }
+            .card:hover { transform: translateY(-5px); border-color: var(--highlight); }
+            
+            .card-header { background: rgba(0,0,0,0.2); padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #2d3844; }
+            .game-name { color: var(--gold); font-weight: bold; font-size: 14px; }
+            .date { font-family: monospace; font-size: 12px; color: #666; }
+            
+            .card-body { padding: 15px; flex-grow: 1; }
+            .row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+            .brand { font-size: 18px; font-weight: 900; color: #fff; }
+            
+            .tag { font-size: 11px; padding: 2px 8px; border-radius: 4px; color: #fff; font-weight: bold; }
+            .tag-bd { background-color: #45a29e; } /* 商务蓝 */
+            .tag-ip { background-color: var(--red); } /* 联动红 */
+            
+            .desc { font-size: 14px; line-height: 1.5; color: #aeb4b9; }
+            
+            .card-footer { padding: 10px 15px; background: rgba(0,0,0,0.2); border-top: 1px solid #2d3844; text-align: right; }
+            .verify-btn { font-size: 12px; color: var(--highlight); text-decoration: none; opacity: 0.8; transition: opacity 0.2s; }
+            .verify-btn:hover { opacity: 1; text-decoration: underline; }
+            
+            @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
+        </style>
+    </head>
+    <body>
+        <h1>🛡️ 竞品商业化情报雷达</h1>
+        <p class="subtitle">更新时间: 2026-01-21 08:54</p>
+        
+        <div class="grid">
+            <div style='text-align:center; color:#666; padding:50px;'>本周暂无新的商业化联动情报</div>
+        </div>
+    </body>
+    </html>
+    
