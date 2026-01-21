@@ -191,14 +191,16 @@ if __name__ == "__main__":
                 else:
                     print(f"🔄 已存在，跳过: {item['game']} x {item['brand']}")
 
-    # 3. 如果有新数据，保存回文件
-    if new_items_count > 0:
+    # 3. 保存数据 (修改点：如果文件不存在，强制创建，防止 git 报错)
+    if new_items_count > 0 or not os.path.exists(DATA_FILE):
         save_history(history_data)
-        print(f"💾 已保存 {new_items_count} 条新数据到数据库。")
+        print(f"💾 数据库已更新/初始化，当前共有 {len(history_data)} 条数据。")
     else:
-        print("🤷‍♂️ 本次未发现全新情报。")
+        print("🤷‍♂️ 本次未发现全新情报，且数据库已存在，跳过写入。")
 
-    # 4. 无论有无更新，都重新生成 HTML (确保页面是最新的)
+    # 4. 生成 HTML
     html = generate_html(history_data)
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(html)
+        
+    print("✅ 网页生成完毕。")
