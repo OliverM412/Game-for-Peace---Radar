@@ -2,19 +2,22 @@ name: Weekly Game Radar
 
 on:
   schedule:
-    - cron: '0 2 * * 1' # 每周一运行
-  workflow_dispatch:    # 允许手动触发
+    - cron: '0 2 * * 1'
+  workflow_dispatch:
 
 permissions:
-  contents: write       # 【关键】给予写权限
+  contents: write
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
+      # 1. 下载代码 (增加 fetch-depth: 0 以确保 git 历史完整，避免推送报错)
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -24,25 +27,31 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      # 运行 Python 脚本 (它会读取 data.json -> 搜索 -> 更新 data.json -> 生成 index.html)
+      # 2. 运行脚本 (先拉取最新代码，防止冲突)
       - name: Run Scan Script
         env:
           LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
-        run: python main.py
+        run: |
+          git pull origin main || echo "Already up to date"
+          python main.py
 
-      # 【新增】将更新后的 data.json 提交回仓库
-      # 这样下次运行就能读取到这次存的数据了
+      # 3. 提交并推送 (明确指定推送至 main 分支)
       - name: Commit and Push Data
         run: |
           git config --global user.name "GitHub Action Bot"
           git config --global user.email "action@github.com"
           
-          # 尝试添加 data.json
+          # 添加 data.json
           git add data.json
           
-          # 如果有变化则提交，没变化则忽略错误
-          git commit -m "Update game intelligence data" || echo "No data changes to commit"
-          git push
+          # 检查是否有变化
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update game intelligence data [skip ci]"
+            # 明确推送到 origin 的 main 分支
+            git push origin main
+          fi
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
